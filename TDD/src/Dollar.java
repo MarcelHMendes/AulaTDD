@@ -2,13 +2,13 @@
 //import org.junit.Test;
 
 class Dollar extends Money{
-	int amount = 10;
-	Dollar(int amount){
-		this.amount = amount;		
+		
+	Dollar(int amount,String currency){
+		super(amount,currency);
 	}
 	Money times(int multiplier) {
 		amount = amount * multiplier;
-		return new Dollar(amount * multiplier);
+		return Money.dollar(amount * multiplier);
 	}
 
 	@Override
@@ -16,7 +16,5 @@ class Dollar extends Money{
 		Dollar dollar = (Dollar) object;
 		return amount == dollar.amount;
 	}
-	
-	
 	
 }
