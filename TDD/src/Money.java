@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-abstract class Money {
+class Money {
 	protected int amount;
 	protected String currency;
 	
@@ -10,11 +10,11 @@ abstract class Money {
 	}
 	
 	static Money dollar(int amount)  {
-		return new Dollar(amount, "USD");
+		return new Money(amount, "USD");
 	}
 	
 	static Money franc(int amount) {
-		return new Franc(amount,"CHF");
+		return new Money(amount,"CHF");
 	}
 	
 	Money(int amount,String currency){
@@ -22,20 +22,20 @@ abstract class Money {
 		this.currency = currency;
 	}
 		
-	abstract Money times(int multiplier); 
+	Money times(int multiplier) {
+		return new Money(amount * multiplier, currency);
+	}
 	   
 	@Override
 	public boolean equals(Object object) {
 		Money money = (Money) object;
-		return amount == money.amount && getClass().equals(money.getClass());
+		return amount == money.amount && currency().equals(money.currency());
 	}
 	
 	@Test
 	public void testEquality() {
-		Assert.assertTrue(Money.dollar(5).equals(Money.dollar(5)));
+		Assert.assertTrue(Money.dollar(5).equals(Money.dollar(5))); 
 		Assert.assertFalse(Money.dollar(5).equals(Money.dollar(6)));
-		Assert.assertTrue(Money.franc(5).equals(Money.franc(5)));
-		Assert.assertFalse(Money.franc(5).equals(Money.franc(6)));
 		Assert.assertFalse(Money.franc(5).equals(Money.dollar(5)));
 	}
 	
@@ -46,22 +46,11 @@ abstract class Money {
 		Assert.assertEquals(Money.dollar(15), five.times(3));
 				
 	}
-	
-	@Test
-	public void testFrancMultiplication() {
-		Money five = Money.franc(5);
-		Assert.assertEquals(Money.franc(10), five.times(2));
-		Assert.assertEquals(Money.franc(15), five.times(3));
-	}
-	
+			
 	@Test
 	public void testCurrency() {
 		Assert.assertEquals("USD", Money.dollar(1).currency());
 		Assert.assertEquals("CHF", Money.franc(1).currency());
 	}
-	
-	
-	
-	
 	
 }
