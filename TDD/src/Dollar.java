@@ -1,21 +1,30 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-class Dollar {
+class Dollar extends Money{
 	int amount = 10;
-	Dollar(int amount){}
-	void times(int multiplier) {}
+	Dollar(int amount){
+		this.amount = amount;		
+	}
+	int times(int multiplier) {
+		amount = amount * multiplier;
+		return amount;
+	}
 
 	@Test
-	public void testMultiplication(){
+	public static void testMultiplication(){
 		Dollar five = new Dollar(5);
-		five.times(2);
-		Assert.assertEquals(10, five.amount);
-
+		Assert.assertEquals(10, five.times(2));
+		Assert.assertEquals(new Dollar(15), five.times(3));
 	}
-
-	public static void main(final String[] args){
-		
 	
+		
+	@Override
+	public boolean equals(Object object) {
+		Dollar dollar = (Dollar) object;
+		return amount == dollar.amount;
 	}
+	
+	
+	
 }
